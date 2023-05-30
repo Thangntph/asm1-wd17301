@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { IProduct } from 'src/app/interfaces/product';
 import { ProductService } from 'src/app/services/product.service';
 
@@ -8,18 +9,16 @@ import { ProductService } from 'src/app/services/product.service';
   styleUrls: ['./product-add.component.scss']
 })
 export class ProductAddComponent {
-
   product: IProduct = {
     name: "",
-    price: 0,
-    img: "",
+    price: 0
   }
-  constructor(private productService: ProductService) {
+  constructor(private productSevice: ProductService, private router: Router) { }
 
-  }
-  onHandleSubmit() {
-    this.productService.addProduct(this.product).subscribe(product => {
-      console.log(product);
+  onHandleAdd() {
+    this.productSevice.addProducts(this.product).subscribe(product => {
+      console.log(product)
+      this.router.navigateByUrl("admin/product")
     })
   }
 }

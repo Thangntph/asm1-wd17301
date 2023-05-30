@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { IProduct } from 'src/app/interfaces/product';
 import { ProductService } from 'src/app/services/product.service';
 
@@ -9,24 +9,23 @@ import { ProductService } from 'src/app/services/product.service';
   styleUrls: ['./product-edit.component.scss']
 })
 export class ProductEditComponent {
-
   product: IProduct = {
     name: "",
     price: 0
   }
-  constructor(
-    private productService: ProductService,
-    private route: ActivatedRoute) {
+  constructor(private productSevice: ProductService,private route: ActivatedRoute ,private router: Router){
     this.route.paramMap.subscribe(param => {
       const id = Number(param.get('id'));
-      this.productService.getProductById(id).subscribe(product => {
-        this.product = product;
+      this.productSevice.getProductById(id).subscribe(product => {
+      // this.product = product;
       }, error => console.log(error.message))
     })
   }
-  onHandleSubmit() {
-    this.productService.updateProduct(this.product).subscribe(product => {
-      console.log(product);
+  
+  onHandleAdd(){
+    this.productSevice.updateProduct(this.product).subscribe(product =>{
+      console.log(product)
+      this.router.navigateByUrl("admin/product")
     })
   }
 }
